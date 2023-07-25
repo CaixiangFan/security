@@ -25,3 +25,5 @@ Get the private key from storage slot and set `locked` state variable to `false`
     ```
     const trim_key = key.slice(0, 34);
     ```
+
+5.  Call `unlock(key)` function in `Remix` with the obtained key as parameter.
